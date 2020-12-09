@@ -50,7 +50,7 @@ pub fn detect_loop(input: &[Command]) -> i32 {
     acc
 }
 
-pub fn detect_loop_option(input: Vec<Command>) -> Option<i32> {
+pub fn detect_loop_option(input: &Vec<Command>) -> Option<i32> {
     let mut iterator = 0;
     let mut acc = 0;
     let mut executed = HashSet::new();
@@ -79,8 +79,8 @@ pub fn detect_loop_option(input: Vec<Command>) -> Option<i32> {
 #[aoc(day8, part2)]
 pub fn fix_prog(input: &[Command]) -> i32 {
     let mut i: usize = 0;
+    let mut new_commands = input.to_owned();
     match input.iter().find_map(|m| {
-        let mut new_commands = input.to_owned();
         
         match &m.name[..] {
             "nop" =>{
@@ -101,8 +101,14 @@ pub fn fix_prog(input: &[Command]) -> i32 {
             },
             _ => {}
         }
+        
+        let ret = detect_loop_option(&new_commands);
+        new_commands[i] = Command{
+            name:m.name.to_string(),
+            number:m.number
+        };
         i = i + 1;
-        detect_loop_option(new_commands)
+        ret
     }) {
         Some(x) => x,
         None => 0
