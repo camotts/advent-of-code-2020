@@ -6,5 +6,6 @@ extern crate lazy_static;
 
 pub mod day2;
 pub mod day8;
+pub mod day9;
 
 aoc_lib!{ year = 2020 }
