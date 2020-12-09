@@ -79,7 +79,7 @@ pub fn detect_loop_option(input: Vec<Command>) -> Option<i32> {
 #[aoc(day8, part2)]
 pub fn fix_prog(input: &[Command]) -> i32 {
     let mut i: usize = 0;
-    input.iter().filter_map(|m| {
+    match input.iter().find_map(|m| {
         let mut new_commands = input.to_owned();
         
         match &m.name[..] {
@@ -103,5 +103,8 @@ pub fn fix_prog(input: &[Command]) -> i32 {
         }
         i = i + 1;
         detect_loop_option(new_commands)
-    }).sum()
+    }) {
+        Some(x) => x,
+        None => 0
+    }
 }
